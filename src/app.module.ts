@@ -1,11 +1,23 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { VideoModule } from './video/video.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+import { getTypeOrmConfig } from './config/typeorm.config';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [VideoModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: ['.env'],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getTypeOrmConfig,
+    }),
+    UsersModule,
+  ],
 })
 export class AppModule {}
