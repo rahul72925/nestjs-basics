@@ -7,6 +7,7 @@ import { getTypeOrmConfig } from './config/typeorm.config';
 import { UsersModule } from './users/users.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-ioredis';
+import { WSGateway } from './common/gateways/app.gateway';
 
 @Module({
   imports: [
@@ -31,5 +32,6 @@ import * as redisStore from 'cache-manager-ioredis';
     }),
     UsersModule,
   ],
+  providers: [WSGateway],
 })
 export class AppModule {}
