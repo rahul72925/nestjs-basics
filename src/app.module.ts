@@ -8,6 +8,9 @@ import { UsersModule } from './users/users.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-ioredis';
 import { WSGateway } from './common/gateways/app.gateway';
+import { ConsumerController } from './consumer/consumer.controller';
+import { MessageModule } from './message/message.module';
+import { ProducerModule } from './producer/producer.module';
 
 @Module({
   imports: [
@@ -31,7 +34,10 @@ import { WSGateway } from './common/gateways/app.gateway';
       }),
     }),
     UsersModule,
+    MessageModule,
+    ProducerModule,
   ],
   providers: [WSGateway],
+  controllers: [ConsumerController],
 })
 export class AppModule {}
