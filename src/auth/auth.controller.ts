@@ -11,6 +11,9 @@ import {
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { AuthGuard } from './auth.guard';
+import { Roles } from './roles.decorator';
+import { Role } from './role.enum';
+import { Public } from './auth.public';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +24,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
+  @Public()
   async signin(@Body() data: { username: string; password: string }) {
     const result = await this.authService.signin(data);
     return result;
@@ -38,5 +42,11 @@ export class AuthController {
   async getProfile(@Req() req: { user: { sub: number } }) {
     const user = await this.userService.findOne(req.user.sub);
     return user;
+  }
+
+  @Roles(Role.Admin)
+  @Get('admin-only')
+  getAdminData() {
+    return 'Secret for admins';
   }
 }

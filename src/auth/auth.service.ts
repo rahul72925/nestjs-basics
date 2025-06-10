@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from './role.enum';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,11 @@ export class AuthService {
     if (!isValidPassword) {
       throw new UnauthorizedException('Invalid password');
     }
-    const payload = { sub: user.id, username: user.username };
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      roles: [Role.Admin],
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
@@ -42,6 +47,7 @@ export class AuthService {
       access_token: await this.jwtService.signAsync({
         sub: newUser.id,
         username: newUser.username,
+        roles: [Role.Admin],
       }),
     };
   }
