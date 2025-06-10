@@ -11,6 +11,7 @@ import { WSGateway } from './common/gateways/app.gateway';
 import { ConsumerController } from './consumer/consumer.controller';
 import { MessageModule } from './message/message.module';
 import { ProducerModule } from './producer/producer.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ProducerModule } from './producer/producer.module';
     UsersModule,
     MessageModule,
     ProducerModule,
+    AuthModule,
   ],
   providers: [WSGateway],
   controllers: [ConsumerController],

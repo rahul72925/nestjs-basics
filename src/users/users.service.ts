@@ -73,4 +73,12 @@ export class UsersService {
   async deleteCacheUserDetails(id: number) {
     await this.cacheManager.del(`users-${id}`);
   }
+
+  async findByUsername(username: string) {
+    return await this.userRepository.findOne({
+      where: {
+        username,
+      },
+    });
+  }
 }
